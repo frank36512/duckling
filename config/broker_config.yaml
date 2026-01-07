@@ -1,0 +1,157 @@
+# 券商API配置文件
+# 注意：此文件包含敏感信息，请勿提交到版本控制系统！
+
+# ============================================================
+# 交易模式配置
+# ============================================================
+trading_mode:
+  # 模式：simulation (模拟交易) 或 real (实盘交易)
+  mode: simulation
+  
+  # 模拟交易初始资金（元）
+  simulation_capital: 100000
+  
+  # 实盘交易确认开关（必须设置为true才能进行实盘交易）
+  real_trading_confirmed: false
+  
+  # 实盘交易安全密码（额外验证，防止误操作）
+  real_trading_password: ""
+
+# ============================================================
+# 券商配置（实盘交易时需要配置）
+# ============================================================
+broker:
+  # 券商类型：simulation(模拟), eastmoney(东方财富), citic(中信), 
+  # huatai(华泰), guotai_junan(国泰君安), guangfa(广发), haitong(海通)
+  type: simulation
+  
+  # 账户ID（资金账号/客户号）
+  account_id: ""
+  
+  # 登录密码
+  password: ""
+  
+  # 交易密码（部分券商需要，用于下单确认）
+  trade_password: ""
+  
+  # 通讯密码（部分券商需要）
+  communication_password: ""
+  
+  # API密钥（部分券商需要）
+  api_key: ""
+  
+  # API Secret（部分券商需要）
+  api_secret: ""
+  
+  # 服务器地址（部分券商需要）
+  server_url: ""
+  
+  # 交易服务器端口
+  server_port: ""
+  
+  # 营业部代码（部分券商需要）
+  branch_code: ""
+  
+  # 席位号（部分券商需要）
+  seat_id: ""
+  
+  # 是否自动登录
+  auto_login: false
+  
+  # 登录超时时间（秒）
+  login_timeout: 30
+  
+  # 心跳间隔（秒，保持连接）
+  heartbeat_interval: 60
+
+# ============================================================
+# 交易限制配置
+# ============================================================
+trading_limits:
+  # 单笔交易最大金额（元）
+  max_order_amount: 50000
+  
+  # 单笔交易最小金额（元）
+  min_order_amount: 1000
+  
+  # 单日最大交易次数
+  max_daily_orders: 20
+  
+  # 单日最大交易金额（元）
+  max_daily_amount: 200000
+  
+  # 最大持仓股票数量
+  max_positions: 10
+  
+  # 单股最大持仓金额（元）
+  max_position_amount: 100000
+  
+  # 是否允许T+0交易（某些券商支持）
+  allow_t0: false
+  
+  # 是否允许融资融券
+  allow_margin: false
+  
+  # 是否允许夜盘交易（期货）
+  allow_night_trading: false
+
+# 风控配置
+risk_control:
+  # 单股最大持仓比例
+  max_position_ratio: 0.3
+  
+  # 最大回撤限制（触发强制平仓）
+  max_drawdown: 0.15
+  
+  # 单日最大亏损限制（触发停止交易）
+  max_daily_loss: 0.05
+  
+  # 止损比例
+  stop_loss_ratio: 0.08
+  
+  # 止盈比例
+  take_profit_ratio: 0.15
+
+# 通知配置
+notification:
+  # 是否启用邮件通知
+  email_enabled: false
+  email_address: ""
+  smtp_server: ""
+  smtp_port: 465
+  smtp_user: ""
+  smtp_password: ""
+  
+  # 是否启用微信通知
+  wechat_enabled: false
+  wechat_webhook: ""
+
+# 日志配置
+logging:
+  # 是否记录详细交易日志
+  detailed_logging: true
+  
+  # 日志保存路径
+  log_path: "logs/broker"
+  
+  # 日志级别：DEBUG, INFO, WARNING, ERROR
+  log_level: "INFO"
+
+# 示例配置（东方财富）
+# broker:
+#   type: eastmoney
+#   account_id: "12345678"
+#   password: "your_password"
+#   real_trading: false
+#   max_order_amount: 50000
+
+# 示例配置（华泰证券）
+# broker:
+#   type: huatai
+#   account_id: "87654321"
+#   password: "your_password"
+#   trade_password: "your_trade_password"
+#   api_key: "your_api_key"
+#   api_secret: "your_api_secret"
+#   server_url: "https://api.huatai.com"
+#   real_trading: false

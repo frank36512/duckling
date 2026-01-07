@@ -1,0 +1,211 @@
+# 机器学习策略配置文件
+
+# 随机森林策略配置
+random_forest:
+  # 是否启用
+  enabled: true
+  
+  # 回看周期（用于特征工程的历史数据天数）
+  lookback_period: 60
+  
+  # 预测周期（预测未来N天的收益）
+  prediction_horizon: 1
+  
+  # 训练集/测试集划分比例
+  train_test_split: 0.8
+  
+  # 重新训练频率（每N天重新训练一次）
+  retrain_frequency: 20
+  
+  # 随机森林参数
+  n_estimators: 100  # 决策树数量
+  max_depth: 10  # 树的最大深度
+  min_samples_split: 5  # 分裂所需最小样本数
+  
+  # 交易信号阈值
+  buy_threshold: 0.01  # 预测收益率 > 1% 时买入
+  sell_threshold: -0.01  # 预测收益率 < -1% 时卖出
+
+# LSTM深度学习策略配置
+lstm:
+  # 是否启用（注意：需要安装TensorFlow，推荐GPU）
+  enabled: false
+  
+  # 回看周期
+  lookback_period: 60
+  
+  # 预测周期
+  prediction_horizon: 1
+  
+  # 训练集/测试集划分比例
+  train_test_split: 0.8
+  
+  # 重新训练频率
+  retrain_frequency: 30
+  
+  # LSTM参数
+  lstm_units: 50  # LSTM单元数量
+  dropout: 0.2  # Dropout比例
+  epochs: 50  # 训练轮数
+  batch_size: 32  # 批次大小
+  sequence_length: 20  # 序列长度
+  
+  # 交易信号阈值
+  buy_threshold: 0.01
+  sell_threshold: -0.01
+  
+  # GPU配置
+  use_gpu: false  # 是否使用GPU（需要CUDA支持）
+  gpu_memory_fraction: 0.5  # GPU内存使用比例
+
+# XGBoost策略配置
+xgboost:
+  # 是否启用
+  enabled: true
+  
+  # 回看周期
+  lookback_period: 60
+  
+  # 预测周期
+  prediction_horizon: 1
+  
+  # 训练集/测试集划分比例
+  train_test_split: 0.8
+  
+  # 重新训练频率
+  retrain_frequency: 20
+  
+  # XGBoost参数
+  n_estimators: 100  # 决策树数量
+  max_depth: 6  # 树的最大深度
+  learning_rate: 0.1  # 学习率
+  
+  # 交易信号阈值
+  buy_threshold: 0.01
+  sell_threshold: -0.01
+
+# 特征工程配置
+feature_engineering:
+  # 移动平均周期
+  ma_periods: [5, 10, 20, 60]
+  
+  # 收益率周期
+  return_periods: [1, 5, 10]
+  
+  # 波动率周期
+  volatility_periods: [10, 20]
+  
+  # RSI周期
+  rsi_period: 14
+  
+  # MACD参数
+  macd_fast: 12
+  macd_slow: 26
+  macd_signal: 9
+  
+  # 布林带参数
+  bollinger_period: 20
+  bollinger_std: 2
+  
+  # 成交量移动平均周期
+  volume_ma_periods: [5, 20]
+  
+  # 是否进行特征标准化
+  feature_scaling: true
+  
+  # 是否进行特征选择（保留最重要的N个特征）
+  feature_selection_enabled: false
+  feature_selection_k: 20
+
+# 模型评估配置
+evaluation:
+  # 评估指标
+  metrics:
+    - "mse"  # 均方误差
+    - "mae"  # 平均绝对误差
+    - "r2"  # R²分数
+  
+  # 是否保存模型
+  save_model: true
+  
+  # 模型保存路径
+  model_save_path: "models/"
+  
+  # 是否绘制预测结果图
+  plot_predictions: true
+  
+  # 图表保存路径
+  plot_save_path: "plots/"
+
+# 回测配置
+backtest:
+  # 初始资金
+  initial_cash: 100000
+  
+  # 交易手续费率
+  commission: 0.0003
+  
+  # 印花税率（卖出时）
+  stamp_duty: 0.001
+  
+  # 滑点（买卖价格偏移比例）
+  slippage: 0.001
+  
+  # 单笔最大交易金额比例
+  max_order_ratio: 0.3
+
+# 日志配置
+logging:
+  # 是否记录训练过程
+  log_training: true
+  
+  # 是否记录预测结果
+  log_predictions: true
+  
+  # 日志级别：DEBUG, INFO, WARNING, ERROR
+  log_level: "INFO"
+  
+  # 日志保存路径
+  log_path: "logs/ml"
+
+# 性能优化配置
+performance:
+  # 是否使用多进程加速
+  use_multiprocessing: true
+  
+  # 进程数量（-1表示使用所有CPU核心）
+  n_jobs: -1
+  
+  # 是否使用缓存加速特征工程
+  use_cache: true
+  
+  # 缓存路径
+  cache_path: "cache/"
+
+# 警告配置
+warnings:
+  # 训练误差警告阈值（MSE）
+  mse_threshold: 0.01
+  
+  # 是否在控制台显示警告
+  show_warnings: true
+  
+  # 是否发送邮件通知
+  email_notifications: false
+
+# 使用示例
+# 1. 基础使用（推荐新手）
+#    - 启用 RandomForest 和 XGBoost
+#    - 使用默认参数
+#    - retrain_frequency = 20（每20天重新训练）
+
+# 2. 高级使用（有GPU的用户）
+#    - 启用 LSTM
+#    - 设置 use_gpu = true
+#    - 增加 epochs 到 100
+#    - 增加 lstm_units 到 100
+
+# 3. 快速测试
+#    - lookback_period = 30（减少数据量）
+#    - retrain_frequency = 5（更频繁重训练）
+#    - epochs = 10（LSTM快速训练）

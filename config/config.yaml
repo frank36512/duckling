@@ -1,0 +1,92 @@
+alert:
+  email:
+    enable: false
+    password: ''
+    receivers: []
+    sender: ''
+    smtp_port: 587
+    smtp_server: ''
+  enable: true
+  popup: true
+  sound: true
+  wechat:
+    enable: false
+    webhook: ''
+backtest:
+  commission: 0.0002
+  initial_cash: 100000
+  position_limit: 0.3
+  slippage: 0.001
+  stamp_duty: 0.001
+broker:
+  account_id: ''
+  api_key: ''
+  api_secret: ''
+  mode: real
+  password: ''
+  server_url: ''
+  simulated_cash: 100000
+  trade_password: ''
+  type: eastmoney
+data_source:
+  akshare:
+    timeout: 30
+    use_proxy: false
+  backup: tushare
+  primary: akshare
+  tushare:
+    retry: 3
+    timeout: 30
+    token: 3f7283173854d3e259a18067bc1053223db86ff41fc97215931dd5d8
+  update:
+    auto_update: false
+    incremental: true
+    update_time: '15:30'
+database:
+  backup_path: ./data/backup/
+  backup_retention_days: 30
+  path: ./data/stock_data.db
+logging:
+  level: INFO
+  max_file_size: 10MB
+  path: ./logs/
+  retention_days: 90
+risk_control:
+  max_daily_trades: 10
+  max_loss_threshold: 0.1
+  price_deviation_limit: 0.03
+security:
+  backup:
+    auto_backup: true
+    backup_frequency: daily
+  encryption:
+    algorithm: AES
+    enabled: true
+strategy:
+  builtin:
+  - MA_CrossOver
+  - MACD_Divergence
+  - RSI_OverboughtOversold
+  - BollingerBands_Breakout
+  custom_path: ./strategies/
+trading:
+  allow_short: false
+  order_type: limit
+  stop_loss: 0.05
+  take_profit: 0.15
+ui:
+  language: zh_CN
+  theme: light
+  window_size:
+  - 1366
+  - 768
+view:
+  animation: true
+  font_size: 18
+  font_weight: normal
+  row_height: 40
+  startup_size: default
+  table_border: true
+  theme: light
+  theme_color: '#13c2c2'
+  zebra_stripes: true
