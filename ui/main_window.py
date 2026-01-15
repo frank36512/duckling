@@ -148,7 +148,7 @@ class MainWindow(FluentWindow):
             # 在 Windows 上设置任务栏图标
             try:
                 # 设置应用程序ID（Windows 7+必需）
-                myappid = 'quanttool.stocktrading.v2.1'
+                myappid = 'duckling.quant.v1.0'
                 ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
                 
                 # 设置 QApplication 图标（用于任务栏显示）

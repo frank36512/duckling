@@ -22,8 +22,29 @@ from utils import ConfigManager, setup_logging
 logger = logging.getLogger(__name__)
 
 
+def exception_hook(exctype, value, traceback_obj):
+    """全局异常捕获钩子"""
+    import traceback
+    from PyQt5.QtWidgets import QApplication, QMessageBox
+    
+    # 获取详细的堆栈信息
+    error_msg = ''.join(traceback.format_exception(exctype, value, traceback_obj))
+    logger.critical(f"未捕获的异常:\n{error_msg}")
+    
+    # 尝试显示错误弹窗（仅在QApplication已初始化时有效）
+    if QApplication.instance():
+        QMessageBox.critical(None, "程序崩溃", f"发生未捕获的异常，程序将终止。\n\n错误信息:\n{value}\n\n详细信息请查看日志文件。")
+    
+    # 调用原始的钩子（如果是控制台模式，这会打印错误）
+    sys.__excepthook__(exctype, value, traceback_obj)
+    sys.exit(1)
+
+
 def main():
     """主函数"""
+    # 设置全局异常捕获
+    sys.excepthook = exception_hook
+    
     try:
         # 加载配置
         config_manager = ConfigManager()
@@ -68,15 +89,25 @@ def main():
         
         # 设置应用程序图标（用于任务栏）
         from PyQt5.QtGui import QIcon
-        icon_path = os.path.join(os.path.dirname(__file__), 'resources', 'duck.ico')
+        
+        # 处理资源路径
+        if getattr(sys, 'frozen', False):
+            base_path = sys._MEIPASS
+        else:
+            base_path = os.path.dirname(__file__)
+            
+        icon_path = os.path.join(base_path, 'resources', 'duck.ico')
+        
         if os.path.exists(icon_path):
-            app.setWindowIcon(QIcon(icon_path))
+            app_icon = QIcon(icon_path)
+            app.setWindowIcon(app_icon)
             logger.info(f"应用程序图标已设置: {icon_path}")
             
             # Windows专用：设置任务栏图标
             try:
                 import ctypes
-                myappid = 'quanttool.stocktrading.v2.1'
+                # 更改AppID以强制刷新任务栏图标缓存
+                myappid = 'duckling.quant.v1.0'
                 ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
                 logger.info("Windows任务栏图标已设置")
             except Exception as e:

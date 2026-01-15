@@ -13,7 +13,7 @@ project_root = Path(__file__).parent
 # PyInstaller参数
 pyinstaller_args = [
     str(project_root / 'main.py'),  # 主程序入口
-    '--name=小鸭量化_v2.1',  # 程序名称（包含版本号）
+    '--name=小鸭量化',  # 程序名称
     '--windowed',  # 无控制台窗口
     '--onefile',  # 打包成单个exe文件
     f'--icon={project_root / "resources" / "duck.ico"}',  # 图标（使用.ico格式）
